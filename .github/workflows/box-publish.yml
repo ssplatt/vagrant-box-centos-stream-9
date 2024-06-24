@@ -27,5 +27,5 @@ jobs:
           VAGRANT_TOKEN: ${{ secrets.VAGRANT_TOKEN }}
         if: github.ref  == 'refs/heads/main'
         run: |
-          export VERSION=$(date +%y.%m.%d%-%H%M%S)
+          export VERSION="$(date +%y%m%d%%H%M%S).${{github.run_id}}.${{github.run_number}}"
           make upload
