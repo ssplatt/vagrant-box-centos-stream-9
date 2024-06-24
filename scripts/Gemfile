@@ -1,4 +1,0 @@
-source 'https://rubygems.org'
-gem 'bundler'
-gem 'httparty'
-gem 'vagrant_cloud'
