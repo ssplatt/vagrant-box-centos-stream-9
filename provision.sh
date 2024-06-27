@@ -5,16 +5,20 @@ echo ":::: Running as user $(whoami) ... "
 id
 echo ":::: Home dir: $HOME ..."
 
-## Disable selinux
 sudo setenforce 0
 sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
-## Upgrade all packages
+sudo yum install -y epel-release python3-dnf-plugin-versionlock
+
+# lock these because the vbox extensions will break if they are upgraded
+# unlock when that bug is fixed
+sudo yum versionlock kernel kernel-*
+
 sudo yum upgrade -y
-sudo yum groupinstall -y "Server with GUI"
-sudo systemctl set-default graphical
-sudo yum install -y epel-release
+
 sudo yum install -y \
+    gdm \
+    firefox \
     cloud-utils-growpart \
     cloud-init \
     vim \
@@ -35,3 +39,5 @@ sudo yum install -y \
     sqlite-devel \
     xz-devel \
     zlib-devel
+
+sudo systemctl set-default graphical
