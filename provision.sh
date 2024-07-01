@@ -15,7 +15,7 @@ sudo yum install -y epel-release python3-dnf-plugin-versionlock
 sudo yum versionlock kernel kernel-*
 
 sudo yum upgrade -y
-
+sudo yum groupinstall -y GNOME
 sudo yum install -y \
     gdm \
     firefox \
