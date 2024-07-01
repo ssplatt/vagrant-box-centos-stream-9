@@ -13,6 +13,7 @@ source "vagrant" "box" {
   communicator      = "ssh"
   provider          = "virtualbox"
   template          = "Vagrantfile.template"
+  skip_add          = "true"
 }
 
 build {
