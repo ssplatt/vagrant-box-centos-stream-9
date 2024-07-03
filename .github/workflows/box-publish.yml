@@ -22,6 +22,7 @@ jobs:
           vagrant --version
           vboxmanage --version
           packer --version
+          vagrant plugin install vagrant-vbguest
       - name: Build box artifact
         run: |
           make build
