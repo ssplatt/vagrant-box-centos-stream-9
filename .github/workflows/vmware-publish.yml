@@ -15,21 +15,24 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Setup Vagrant and Virtualbox
+      - name: Setup Vagrant and Vmware
         run: |
           sudo apt-get update
-          sudo apt-get install -y software-properties-common vagrant virtualbox
+          sudo apt-get install -y software-properties-common vagrant
+          wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.5.2/23775571/linux/core/VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
+          tar xvf VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
+          bash VMware-Workstation-17.5.2-23775571.x86_64.bundle
           vagrant --version
-          vboxmanage --version
           packer --version
+          vmware --version
       - name: Build box artifact
         run: |
-          make build
+          make build-vmware
       - name: Upload build artifact
         env:
           VAGRANT_TOKEN: ${{ secrets.VAGRANT_TOKEN }}
         if: github.ref  == 'refs/heads/main'
         run: |
           export VERSION="$(date +%Y%m%d).${{github.run_number}}.${{github.run_attempt}}"
-          echo "VERSION=$VERSION"
+          export PROVIDER="vmware"
           make upload

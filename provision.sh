@@ -8,12 +8,7 @@ echo ":::: Home dir: $HOME ..."
 sudo setenforce 0
 sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
-sudo yum install -y epel-release python3-dnf-plugin-versionlock
-
-# lock these because the vbox extensions will break if they are upgraded
-# unlock when that bug is fixed
-sudo yum versionlock kernel kernel-*
-
+sudo yum install -y epel-release
 sudo yum upgrade -y
 sudo yum groupinstall -y GNOME
 sudo yum install -y \
