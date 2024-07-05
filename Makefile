@@ -7,7 +7,7 @@ build-vmware:
 	./scripts/build_box_vmware.sh
 
 clean:
-	find . -type d -name "output" -exec rm -rf {} \;
+	rm -rf ./vmware ./virtualbox
 
 upload:
 	./scripts/upload_artifact.sh
