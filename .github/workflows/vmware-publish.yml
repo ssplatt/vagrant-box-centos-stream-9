@@ -1,4 +1,4 @@
-name: Vagrant box publish
+name: Vagrant Vmware box publish
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
           sudo apt-get install -y software-properties-common vagrant
           wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.5.2/23775571/linux/core/VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
           tar xvf VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
-          bash VMware-Workstation-17.5.2-23775571.x86_64.bundle
+          sudo bash VMware-Workstation-17.5.2-23775571.x86_64.bundle
           vagrant --version
           packer --version
           vmware --version

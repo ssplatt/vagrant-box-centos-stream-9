@@ -1,4 +1,4 @@
-name: Vagrant box publish
+name: Vagrant Virtualbox box publish
 
 on:
   push:
