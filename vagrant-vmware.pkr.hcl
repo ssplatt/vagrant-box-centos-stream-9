@@ -9,9 +9,9 @@ packer {
 
 source "vagrant" "box" {
   source_path       = "ssplatt/centos-stream-9"
-  output_dir        = "./vmware/"
+  output_dir        = "./vmware_desktop/"
   communicator      = "ssh"
-  provider          = "vmware"
+  provider          = "vmware_desktop"
   template          = "Vagrantfile.template"
 }
 
