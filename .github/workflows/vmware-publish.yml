@@ -27,6 +27,18 @@ jobs:
           sudo dpkg -i vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
           sudo cat /opt/vagrant-vmware-desktop/config/service.hcl
+          sudo bash -c "cat > /opt/vagrant-vmware-desktop/config/service.hcl" <<EOF
+          core {
+            level = "info"
+          }
+
+          api {
+            port = 9922
+            driver = "advanced"
+            license_override = "standard"
+          }
+          EOF
+          sudo cat /opt/vagrant-vmware-desktop/config/service.hcl
           vagrant --version
           packer --version
           vmware --version
