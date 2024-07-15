@@ -4,7 +4,6 @@ set -e
 packer init ./vagrant-vmware.pkr.hcl
 packer validate ./vagrant-vmware.pkr.hcl
 vagrant plugin install vagrant-vmware-desktop
-sudo systemctl restart vagrant-vmware-utility
 packer build \
     -color=false \
     -on-error=abort \
