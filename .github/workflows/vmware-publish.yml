@@ -18,10 +18,10 @@ jobs:
       - name: Setup Vagrant and Vmware
         run: |
           sudo apt-get update
-          sudo apt-get install -y software-properties-common vagrant
+          sudo apt-get install -y software-properties-common wget vagrant
           wget https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.5.2/23775571/linux/core/VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
           tar xvf VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
-          sudo bash VMware-Workstation-17.5.2-23775571.x86_64.bundle --console --eulas-agreed
+          sudo bash VMware-Workstation-17.5.2-23775571.x86_64.bundle --console --eulas-agreed --required
           vagrant --version
           packer --version
           vmware --version
