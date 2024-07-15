@@ -38,6 +38,7 @@ jobs:
           }
           EOF
           sudo cat /opt/vagrant-vmware-desktop/config/service.hcl
+          sudo systemctl restart vagrant-vmware-utility
           vagrant --version
           packer --version
           vmware --version
