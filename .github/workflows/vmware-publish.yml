@@ -31,11 +31,10 @@ jobs:
           core {
             level = "info"
           }
-
           api {
             port = 9922
             driver = "advanced"
-            license_override = "standard"
+            license_override = "professional"
           }
           EOF
           sudo cat /opt/vagrant-vmware-desktop/config/service.hcl
