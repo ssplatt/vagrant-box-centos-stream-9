@@ -39,6 +39,7 @@ jobs:
           [Install]
           WantedBy=multi-user.target
           EOF
+          sudo systemctl daemon-reload
           sudo cat /lib/systemd/system/vagrant-vmware-utility.service
           sudo systemctl restart vagrant-vmware-utility
           vagrant --version
