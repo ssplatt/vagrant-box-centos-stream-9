@@ -25,8 +25,8 @@ jobs:
           wget -q https://releases.hashicorp.com/vagrant-vmware-utility/1.0.22/vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo dpkg -i vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
-          sudo cat  /etc/systemd/system/vagrant-vmware-utility.service
-          sudo bash -c "cat >  /etc/systemd/system/vagrant-vmware-utility.service" <<EOF
+          sudo cat  /lib/systemd/system/vagrant-vmware-utility.service
+          sudo bash -c "cat >  /lib/systemd/system/vagrant-vmware-utility.service" <<EOF
           [Unit]
           Description=Vagrant VMware Utility
           After=network.target
@@ -39,7 +39,7 @@ jobs:
           [Install]
           WantedBy=multi-user.target
           EOF
-          sudo cat  /etc/systemd/system/vagrant-vmware-utility.service
+          sudo cat /lib/systemd/system/vagrant-vmware-utility.service
           sudo systemctl restart vagrant-vmware-utility
           vagrant --version
           packer --version
