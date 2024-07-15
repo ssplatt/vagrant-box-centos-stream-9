@@ -16,6 +16,7 @@ sudo yum install -y \
     firefox \
     cloud-utils-growpart \
     cloud-init \
+    open-vm-tools-desktop \
     vim \
     wget \
     htop \
