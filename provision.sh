@@ -5,8 +5,12 @@ echo ":::: Running as user $(whoami) ... "
 id
 echo ":::: Home dir: $HOME ..."
 
-sudo setenforce 0
-sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+sestatus=$(sudo getenforce)
+echo $sestatus
+if [[ "$sestatus" != "Disabled" ]]; then
+    sudo setenforce 0
+    sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+fi
 
 sudo yum install -y epel-release
 sudo yum upgrade -y
