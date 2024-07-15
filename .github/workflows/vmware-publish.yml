@@ -33,7 +33,7 @@ jobs:
 
           [Service]
           Type=simple
-          ExecStart=/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility api -config-file=/opt/vagrant-vmware-desktop/config/service.hcl -license-override professional
+          ExecStart=/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility api -config-file=/opt/vagrant-vmware-desktop/config/service.hcl -license-override standard
           Restart=on-abort
 
           [Install]
