@@ -18,7 +18,6 @@ jobs:
       - name: Setup Vagrant and Vmware
         run: |
           sudo apt-get update
-          sudo apt-get -y upgrade
           sudo apt-get install -y software-properties-common wget vagrant
           wget -q https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.5.2/23775571/linux/core/VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
           tar xf VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
@@ -26,18 +25,21 @@ jobs:
           wget -q https://releases.hashicorp.com/vagrant-vmware-utility/1.0.22/vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo dpkg -i vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
-          sudo cat /opt/vagrant-vmware-desktop/config/service.hcl
-          sudo bash -c "cat > /opt/vagrant-vmware-desktop/config/service.hcl" <<EOF
-          core {
-            level = "info"
-          }
-          api {
-            port = 9922
-            driver = "advanced"
-            license_override = "professional"
-          }
+          sudo cat  /etc/systemd/system/vagrant-vmware-utility.service
+          sudo bash -c "cat >  /etc/systemd/system/vagrant-vmware-utility.service" <<EOF
+          [Unit]
+          Description=Vagrant VMware Utility
+          After=network.target
+
+          [Service]
+          Type=simple
+          ExecStart=/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility api -config-file=/opt/vagrant-vmware-desktop/config/service.hcl -license-override professional
+          Restart=on-abort
+
+          [Install]
+          WantedBy=multi-user.target
           EOF
-          sudo cat /opt/vagrant-vmware-desktop/config/service.hcl
+          sudo cat  /etc/systemd/system/vagrant-vmware-utility.service
           sudo systemctl restart vagrant-vmware-utility
           vagrant --version
           packer --version
