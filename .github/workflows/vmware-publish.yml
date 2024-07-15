@@ -25,6 +25,14 @@ jobs:
           wget -q https://releases.hashicorp.com/vagrant-vmware-utility/1.0.22/vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo dpkg -i vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
+          mkdir -p ~/.vmware
+          touch ~/.vmware/preferences
+          cat ~/.vmware/preferences
+          cat > ~/.vmware/preferences <<EOF
+          pref.ws.session.window.count = "1"
+          pref.lastUpdateCheckSec = "1721055643"
+          pref.wspro.firstRunDismissedVersion = "17.5.2"
+          EOF
           cat ~/.vmware/preferences
           vagrant --version
           packer --version
