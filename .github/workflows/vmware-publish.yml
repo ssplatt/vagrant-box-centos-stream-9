@@ -25,6 +25,21 @@ jobs:
           wget -q https://releases.hashicorp.com/vagrant-vmware-utility/1.0.22/vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo dpkg -i vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
+          bash -c "cat > /etc/systemd/vagrant-vmware-utility.service" <<EOF
+          [Unit]
+          Description=Vagrant VMware Utility
+          After=network.target
+
+          [Service]
+          Type=simple
+          ExecStart=/opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility api -config-file=/opt/vagrant-vmware-desktop/config/service.hcl -license-override professional
+          Restart=on-abort
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+          sudo systemctl daemon-reload
+          sudo systemctl restart vagrant-vmware-utility
           vagrant --version
           packer --version
           vmware --version
