@@ -5,7 +5,7 @@ USE_VAGRANT=${USE_VAGRANT:-"false"}
 
 vagrant plugin install vagrant-vmware-desktop
 
-if [[ "$USE_VAGRANT" == "true"]]; then
+if [[ "$USE_VAGRANT" == "true" ]]; then
     packer init ./vagrant-vmware.pkr.hcl
     packer validate ./vagrant-vmware.pkr.hcl
     packer build \
