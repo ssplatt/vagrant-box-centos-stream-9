@@ -7,10 +7,10 @@ packer {
   }
 }
 
-variable "vbox_version" { default = "20240716.40.1" }
+variable "vmx_path" { default = "/home/runner/.vagrant.d/boxes/ssplatt-VAGRANTSLASH-centos-stream-9/20240716.40.1/vmware_desktop/centos9stream.vmx" }
 
 source "vmware-vmx" "box" {
-  source_path       = "~/.vagrant.d/boxes/ssplatt-VAGRANTSLASH-centos-stream-9/${var.vbox_version}/amd64/vmware_desktop/centos9stream.vmx"
+  source_path       = "${var.vmx_path}"
   output_directory  = "./vmware_desktop/"
   communicator      = "ssh"
   ssh_username      = "vagrant"
