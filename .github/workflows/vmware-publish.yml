@@ -28,6 +28,7 @@ jobs:
           vagrant --version
           packer --version
           vmware --version
+          vmplayer --version
       - name: Build box artifact
         run: |
           make build-vmware
