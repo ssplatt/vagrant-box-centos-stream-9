@@ -15,7 +15,7 @@ if [[ "$USE_VAGRANT" == "true" ]]; then
 else
     vagrant box add ssplatt/centos-stream-9 --no-tty --provider vmware_desktop
     sudo apt-get install -y tree
-    tree ~/.vmware
+    tree ~
     
     packer init ./vmware.pkr.hcl
     packer validate ./vmware.pkr.hcl
