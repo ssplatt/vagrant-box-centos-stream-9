@@ -13,7 +13,10 @@ if [[ "$USE_VAGRANT" == "true" ]]; then
         -on-error=abort \
         ./vagrant-vmware.pkr.hcl
 else
-    vagrant box add --no-tty ssplatt/centos-stream-9 --provider vmware_desktop
+    vagrant box add ssplatt/centos-stream-9 --no-tty --provider vmware_desktop
+    sudo apt-get install -y tree
+    tree ~/.vmware
+    
     packer init ./vmware.pkr.hcl
     packer validate ./vmware.pkr.hcl
     packer build \
