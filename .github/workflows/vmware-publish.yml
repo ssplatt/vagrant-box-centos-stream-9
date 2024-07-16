@@ -29,8 +29,13 @@ jobs:
           packer --version
           vmware --version
       - name: Build box artifact
+        continue-on-error: true
         run: |
           make build-vmware
+      - name: Get logs
+        run: |
+          find . -name "*.log" -exec cat {} \;
+          exit 1
       - name: Upload build artifact
         env:
           VAGRANT_TOKEN: ${{ secrets.VAGRANT_TOKEN }}
