@@ -13,7 +13,7 @@ if [[ "$USE_VAGRANT" == "true" ]]; then
         -on-error=abort \
         ./vagrant-vmware.pkr.hcl
 else
-    vagrant box add ssplatt/centos-stream-9
+    vagrant box add --no-tty ssplatt/centos-stream-9 --provider vmware_desktop
     packer init ./vmware.pkr.hcl
     packer validate ./vmware.pkr.hcl
     packer build \
@@ -24,12 +24,12 @@ else
     cd ./vmware_desktop
     ls -lah
 
-    rm -rf *.lck
-    rm -rf *.scoreboard
-    rm -rf *.log
-    rm -rf *.box
-    vmware-vdiskmanager -d packer-box-*.vmdk
-    vmware-vdiskmanager -k packer-box-*.vmdk
+    rm -rf ./*.lck
+    rm -rf ./*.scoreboard
+    rm -rf ./*.log
+    rm -rf ./*.box
+    vmware-vdiskmanager -d ./packer-box-*.vmdk
+    vmware-vdiskmanager -k ./packer-box-*.vmdk
 
     tar cvzf ../centos9stream.box ./*
 fi
