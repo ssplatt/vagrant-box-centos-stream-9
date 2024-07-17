@@ -30,6 +30,7 @@ jobs:
           vmware --version
       - name: Build box artifact
         run: |
+          export PACKER_LOG=1
           make build-vmware
       - name: Upload build artifact
         env:
