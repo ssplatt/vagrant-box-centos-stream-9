@@ -20,7 +20,7 @@ echo "ARCH=$ARCH"
 
 # Create a new version
 is_version=$(curl -s "https://app.vagrantup.com/api/v2/box/${VAGRANT_USER}/${BOX_NAME}/version/${VERSION}/" | jq -r .version)
-if [[ "$is_version" == "$VERSION"]]
+if [[ "$is_version" == "$VERSION" ]];
 then
   echo "... Version $VERSION already exists, adding new provider"
 else

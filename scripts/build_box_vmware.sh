@@ -28,8 +28,8 @@ else
     rm -rf ./*.scoreboard
     rm -rf ./*.log
     rm -rf ./*.box
-    vmware-vdiskmanager -d ./packer-box-*.vmdk
-    vmware-vdiskmanager -k ./packer-box-*.vmdk
+    vmware-vdiskmanager -d ./*.vmdk
+    vmware-vdiskmanager -k ./*.vmdk
 
     tar cvzf ../centos9stream.box ./*
 fi
