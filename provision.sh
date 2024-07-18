@@ -12,6 +12,7 @@ if [[ "$sestatus" != "Disabled" ]]; then
     sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 fi
 
+sudo systemctl enable tmp.mount
 sudo yum install -y epel-release
 sudo yum upgrade -y
 sudo yum groupinstall -y GNOME
