@@ -2,6 +2,8 @@
 set -e
 
 USE_VAGRANT=${USE_VAGRANT:-"false"}
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/"
+PROJECT_ROOT="$(dirname "$DIR")"
 
 vagrant plugin install vagrant-vmware-desktop
 
@@ -30,6 +32,8 @@ else
     rm -rf ./*.box
     vmware-vdiskmanager -d ./*.vmdk
     vmware-vdiskmanager -k ./*.vmdk
+
+    bash "$PROJECT_ROOT"/scripts/add_metadata.sh
 
     tar cvzf ../centos9stream.box ./*
 fi
