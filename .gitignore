@@ -1,3 +1,4 @@
+*.box
 .env
 .vagrant
 packer_cache

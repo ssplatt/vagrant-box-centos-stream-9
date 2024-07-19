@@ -20,7 +20,6 @@ sudo yum install -y \
     gdm \
     firefox \
     cloud-utils-growpart \
-    cloud-init \
     open-vm-tools-desktop \
     vim \
     wget \
@@ -28,6 +27,8 @@ sudo yum install -y \
     telnet \
     gcc \
     make \
+    unzip \
+    socat \
     net-tools \
     python3 \
     python3-devel \
