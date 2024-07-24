@@ -21,7 +21,7 @@ else
     make dev
     cd ..
     vagrant box add ssplatt/centos-stream-9 --no-tty --provider vmware_desktop
-    packer init ./vmware.pkr.hcl
+    #packer init ./vmware.pkr.hcl
     packer validate ./vmware.pkr.hcl
     packer build \
         -color=false \
