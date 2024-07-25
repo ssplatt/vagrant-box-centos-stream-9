@@ -7,7 +7,7 @@ packer {
   }
 }
 
-variable "vmx_path" { default = "/home/runner/.vagrant.d/boxes/ssplatt-VAGRANTSLASH-centos-stream-9/20240719.46.1/vmware_desktop/packer-box-1721350630.vmx" }
+variable "vmx_path" { default = "/home/runner/.vagrant.d/boxes/neto-VAGRANTSLASH-centos-stream-9/202404.23.0/vmware_desktop/centos-stream-9-amd64.vmx" }
 
 source "vmware-vmx" "box" {
   source_path       = "${var.vmx_path}"
