@@ -15,8 +15,14 @@ if [[ "$USE_VAGRANT" == "true" ]]; then
         -on-error=abort \
         ./vagrant-vmware.pkr.hcl
 else
-    vagrant box add ssplatt/centos-stream-9 --no-tty --provider vmware_desktop
-    packer init ./vmware.pkr.hcl
+    git clone https://github.com/hashicorp/packer-plugin-vmware.git
+    cd packer-plugin-vmware
+    git checkout refactor/consolidate-player-driver
+    make dev
+    cd ..
+    vagrant box add bento/centos-stream-9 --no-tty --provider vmware_desktop
+    tree /home/runner/.vagrant.d/boxes/
+    #packer init ./vmware.pkr.hcl
     packer validate ./vmware.pkr.hcl
     packer build \
         -color=false \
