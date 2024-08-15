@@ -22,6 +22,7 @@ else
     cd ..
     vagrant box add bento/centos-stream-9 --no-tty --provider vmware_desktop
     vmx_file=$(find /home/runner/.vagrant.d/boxes/ -type f -name "*.vmx")
+    echo "***** vmx_file: $vmx_file"
     tree /home/runner/.vagrant.d/boxes/
     sudo touch /etc/vmware/license-ws-foo
     #packer init ./vmware.pkr.hcl
