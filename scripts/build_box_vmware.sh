@@ -30,7 +30,7 @@ else
     packer build \
         -color=false \
         -on-error=abort \
-        -var vmx_path="$vmx_file" \
+        -var "vmx_path=$vmx_file" \
         ./vmware.pkr.hcl
 
     cd ./vmware_desktop
