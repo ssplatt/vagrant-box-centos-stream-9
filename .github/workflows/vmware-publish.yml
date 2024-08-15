@@ -31,7 +31,6 @@ jobs:
       - name: Build box artifact
         run: |
           export PACKER_LOG=1
-          sudo touch /etc/vmware/license-ws-foo
           make build-vmware
       - name: Upload build artifact
         env:
