@@ -27,6 +27,9 @@ sudo yum install -y \
     telnet \
     gcc \
     make \
+    perl \
+    kernel-devel \
+    kerne-headers \
     unzip \
     socat \
     net-tools \
