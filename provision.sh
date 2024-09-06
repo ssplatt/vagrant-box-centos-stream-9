@@ -30,6 +30,9 @@ sudo yum install -y \
     perl \
     kernel-devel \
     kernel-headers \
+    autoconf \
+    centos-release-kmods \
+    virtualbox-guest-additions \
     unzip \
     socat \
     net-tools \
@@ -46,4 +49,5 @@ sudo yum install -y \
     xz-devel \
     zlib-devel
 
+sudo systemctl enable vboxservice
 sudo systemctl set-default graphical
