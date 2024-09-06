@@ -12,12 +12,18 @@ if [[ "$sestatus" != "Disabled" ]]; then
     sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 fi
 
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
 sudo systemctl enable tmp.mount
-sudo yum install -y epel-release
+sudo yum install -y \
+    epel-release \
+    centos-release-kmods
 sudo yum upgrade -y
 sudo yum groupinstall -y GNOME
 sudo yum install -y \
-    gdm \
+    bzip2 \
+    tar \
     firefox \
     cloud-utils-growpart \
     open-vm-tools-desktop \
@@ -31,7 +37,6 @@ sudo yum install -y \
     kernel-devel \
     kernel-headers \
     autoconf \
-    centos-release-kmods \
     virtualbox-guest-additions \
     unzip \
     socat \
