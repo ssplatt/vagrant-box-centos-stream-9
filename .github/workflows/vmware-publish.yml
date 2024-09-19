@@ -17,11 +17,13 @@ jobs:
           version: latest
       - name: Setup Vagrant and Vmware
         run: |
+          export VMWARE_VERSION=17.6.0
+          export VMWARE_BUILD=24238078
           sudo apt-get update
           sudo apt-get install -y software-properties-common wget vagrant
-          wget -q https://softwareupdate.vmware.com/cds/vmw-desktop/ws/17.5.2/23775571/linux/core/VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
-          tar xf VMware-Workstation-17.5.2-23775571.x86_64.bundle.tar
-          sudo bash VMware-Workstation-17.5.2-23775571.x86_64.bundle --console --eulas-agreed --required --set-setting vmware-workstation serialNumber "" --set-setting vmware-player serialNumber "" 
+          wget -q https://softwareupdate.vmware.com/cds/vmw-desktop/ws/${VMWARE_VERSION}/${VMWARE_BUILD}/linux/core/VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
+          tar xf VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
+          sudo bash VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle --console --eulas-agreed --required --set-setting vmware-workstation serialNumber "" --set-setting vmware-player serialNumber "" 
           wget -q https://releases.hashicorp.com/vagrant-vmware-utility/1.0.22/vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo dpkg -i vagrant-vmware-utility_1.0.22-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
