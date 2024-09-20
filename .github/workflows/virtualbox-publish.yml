@@ -27,6 +27,8 @@ jobs:
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
           sudo apt-get update
           sudo apt-get install -y software-properties-common virtualbox-6.1
+          sudo /sbin/vboxconfig
+          sudo cat /var/log/vbox-setup.log
       - name: Check versions
         run: |
           vagrant --version
