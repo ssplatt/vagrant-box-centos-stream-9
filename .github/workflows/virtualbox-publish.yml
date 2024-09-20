@@ -18,7 +18,10 @@ jobs:
       - name: Setup Vagrant and Virtualbox
         run: |
           dist=$(lsb_release -c | cut -d':' -f2 | tr -d '[:blank:]')
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $dist contrib" > /etc/apt/sources.list.d/virtualbox.list
+          echo "dist = $dist"
+          sudo bash -c "cat > /etc/apt/sources.list.d/virtualbox.list" <<EOL
+          deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $dist contrib
+          EOL
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
           sudo apt-get update
           sudo apt-get install -y software-properties-common vagrant virtualbox
