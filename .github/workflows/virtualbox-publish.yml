@@ -15,19 +15,27 @@ jobs:
         uses: hashicorp/setup-packer@main
         with:
           version: latest
-      - name: Setup Vagrant and Virtualbox
+      - name: Setup HashiCorp Vagrant
         run: |
-          dist=$(lsb_release -c | cut -d':' -f2 | tr -d '[:blank:]')
+          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update
+          sudo apt install vagrant
+      - name: Setup Virtualbox
+        run: |
+          dist=$(lsb_release -cs)
           echo "dist = $dist"
           sudo bash -c "cat > /etc/apt/sources.list.d/virtualbox.list" <<EOL
           deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian $dist contrib
           EOL
           wget -O- https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo gpg --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg --dearmor
           sudo apt-get update
-          sudo apt-get install -y software-properties-common vagrant virtualbox-7.0
+          sudo apt-get install -y software-properties-common virtualbox-7.0
+      - name: Check versions
+        run: |
           vagrant --version
-          vboxmanage --version
           packer --version
+          virtualbox --version
       - name: Build box artifact
         run: |
           make build
