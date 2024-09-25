@@ -15,7 +15,7 @@ if [[ "$USE_VAGRANT" == "true" ]]; then
         -on-error=abort \
         ./vagrant-vmware.pkr.hcl
 else
-    vagrant box add bento/centos-stream-9 --no-tty --provider vmware_desktop
+    vagrant box add bento/centos-stream-9 --provider vmware_desktop
     vmx_file=$(find /home/runner/.vagrant.d/boxes/ -type f -name "*.vmx")
     sudo touch /etc/vmware/license-ws-foo
     packer init -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
