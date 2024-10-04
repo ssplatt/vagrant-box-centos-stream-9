@@ -54,5 +54,19 @@ sudo yum install -y \
     xz-devel \
     zlib-devel
 
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+sudo yum install -y google-chrome-stable_current_x86_64.rpm
+sudo rm -f google-chrome-stable_current_x86_64.rpm
+
+if [[ ! -s /home/vagrant/.ssh/authorized_keys ]]; then
+    mkdir -p /home/vagrant/.ssh
+    wget https://raw.githubusercontent.com/hashicorp/vagrant/refs/heads/main/keys/vagrant.pub -O /home/vagrant/.ssh/authorized_keys
+    chmod 700 /home/vagrant/.ssh
+    chmod 600 /home/vagrant/.ssh/authorized_keys
+    chown -R vagrant:vagrant /home/vagrant/.ssh
+fi
+
 sudo systemctl enable vboxservice
 sudo systemctl set-default graphical
+
+sudo dnf remove -y --oldinstallonly
