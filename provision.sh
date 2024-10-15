@@ -69,4 +69,5 @@ fi
 sudo systemctl enable vboxservice
 sudo systemctl set-default graphical
 
+sudo dnf clean all
 sudo dnf remove -y --oldinstallonly
