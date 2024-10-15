@@ -1,31 +1,49 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
+  build-ova:
     docker:
-      # Specify the version you desire here
-      # See: https://circleci.com/developer/images/image/cimg/base
       - image: cimg/base:current
-
-    # Add steps to the job
-    # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
-      # Checkout the code as the first step.
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: Install Packer and Vagrant
+          command: |
+            wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+            echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+            sudo apt update
+            sudo apt install -y vagrant packer
+      - run:
+          name: Setup Vmware
+          command: |
+            export VMWARE_VERSION=17.6.1
+            export VMWARE_BUILD=24319023
+            export VAGRANT_VMWARE_UTILITY_VERSION=1.0.23
+            sudo apt-get update
+            sudo apt-get install -y software-properties-common wget 
+            wget -q https://softwareupdate.vmware.com/cds/vmw-desktop/ws/${VMWARE_VERSION}/${VMWARE_BUILD}/linux/core/VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
+            tar xf VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
+            sudo bash VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle --console --eulas-agreed --required --set-setting vmware-workstation serialNumber "" --set-setting vmware-player serialNumber "" 
+            wget -q https://releases.hashicorp.com/vagrant-vmware-utility/${VAGRANT_VMWARE_UTILITY_VERSION}/vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
+            sudo dpkg -i vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
+            sudo systemctl restart vagrant-vmware-utility
+            vagrant --version
+            packer --version
+            vmware --version
+      - run:
+          name: Build box artifact
+          command: |
+            export PACKER_LOG=1
+            make build-vmware
+      - run:
+          name: Upload build artifact
+          command: |
+            export VERSION="$(date +%Y%m%d).${{github.run_number}}.${{github.run_attempt}}"
+            export PROVIDER="vmware_desktop"
+            export BOX_PATH="./centos9stream.box"
+            make upload
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  say-hello-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  main:
     jobs:
-      - say-hello
+      - build-ova
