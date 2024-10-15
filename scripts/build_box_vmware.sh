@@ -16,7 +16,7 @@ if [[ "$USE_VAGRANT" == "true" ]]; then
         ./vagrant-vmware.pkr.hcl
 else
     vagrant box add ssplatt/centos-stream-9 --no-tty --provider vmware_desktop
-    vmx_file=$(find /home/runner/.vagrant.d/boxes/ -type f -name "*.vmx")
+    vmx_file=$(find "$HOME/.vagrant.d/boxes/" -type f -name "*.vmx")
     sudo touch /etc/vmware/license-ws-foo
     packer init -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
     packer validate -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
