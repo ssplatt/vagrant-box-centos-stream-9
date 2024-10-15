@@ -20,6 +20,7 @@ else
     sudo touch /etc/vmware/license-ws-foo
     packer init -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
     packer validate -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
+    df -h
     packer build \
         -color=false \
         -on-error=abort \

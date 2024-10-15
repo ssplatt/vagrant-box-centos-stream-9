@@ -28,7 +28,7 @@ jobs:
             sudo bash VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle --console --eulas-agreed --required --set-setting vmware-workstation serialNumber "" --set-setting vmware-player serialNumber "" 
             wget -q https://releases.hashicorp.com/vagrant-vmware-utility/${VAGRANT_VMWARE_UTILITY_VERSION}/vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
             sudo dpkg -i vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
-            #sudo systemctl restart vagrant-vmware-utility
+            sudo systemctl restart vagrant-vmware-utility
             vagrant --version
             packer --version
             vmware --version
