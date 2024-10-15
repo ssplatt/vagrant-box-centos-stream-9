@@ -44,7 +44,7 @@ jobs:
           vmware --version
           lscpu
           df -h
-          lsblock
+          lsblk
           lsmod
       - name: Build box artifact
         run: |

@@ -22,6 +22,13 @@ source "vmware-vmx" "box" {
   shutdown_command  = "sudo shutdown -h now"
   format            = "vmx"
   headless          = "true"
+  vmx_data = {
+    "ethernet0.connectionType" = "nat"
+    "ethernet0.addressType" = "generated"
+    "ethernet0.virtualDev" = "vmxnet3"
+    "ethernet0.linkStatePropagation.enable" = "TRUE"
+    "ethernet0.present" = "TRUE"
+  }
 }
 
 build {
