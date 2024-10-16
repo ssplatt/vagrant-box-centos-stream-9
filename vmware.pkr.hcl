@@ -24,9 +24,9 @@ source "vmware-vmx" "box" {
   headless          = "true"
   vmx_data = {
     "ethernet0.networkName": "VM Network",
-    "ethernet0.ipAddress": "192.168.168.50",
+    "ethernet0.ipAddress": "192.168.221.50",
     "ethernet0.subnetMask": "255.255.255.0",
-    "ethernet0.defaultGateway": "192.168.168.2"
+    "ethernet0.defaultGateway": "192.168.221.2"
   }
 }
 

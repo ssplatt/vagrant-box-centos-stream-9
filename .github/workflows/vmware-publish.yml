@@ -42,8 +42,9 @@ jobs:
           vagrant --version
           packer --version
           vmware --version
-          cat /etc/vmware/networking
-          cat /etc/vmware/vmnet8/dhcpd/*
+          sudo cat /etc/vmware/networking
+          sudo cat /etc/vmware/vmnet8/dhcpd/*
+          sudo ip a | grep vmnet8
       - name: Build box artifact
         run: |
           export PACKER_LOG=1
