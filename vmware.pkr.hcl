@@ -23,10 +23,12 @@ source "vmware-vmx" "box" {
   format            = "vmx"
   headless          = "true"
   vmx_data = {
-    "ethernet0.networkName": "VM Network",
-    "ethernet0.ipAddress": "192.168.221.50",
-    "ethernet0.subnetMask": "255.255.255.0",
-    "ethernet0.defaultGateway": "192.168.221.2"
+    ethernet0.addresstype = "generated"
+    ethernet0.connectiontype = "nat"
+    ethernet0.linkstatepropagation.enable = "TRUE"
+    ethernet0.pcislotnumber = "160"
+    ethernet0.present = "TRUE"
+    ethernet0.virtualdev = "vmxnet3"
   }
 }
 
