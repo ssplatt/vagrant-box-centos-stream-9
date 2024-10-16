@@ -43,6 +43,7 @@ jobs:
           packer --version
           vmware --version
           cat /etc/vmware/networking
+          cat /etc/vmware/vmnet8/dhcpd/*
       - name: Build box artifact
         run: |
           export PACKER_LOG=1
