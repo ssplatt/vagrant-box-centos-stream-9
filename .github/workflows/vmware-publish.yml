@@ -35,7 +35,7 @@ jobs:
           sudo apt-get install -y software-properties-common wget build-essential libxcb-render0 libpcsclite1
           wget -q https://softwareupdate.vmware.com/cds/vmw-desktop/ws/${VMWARE_VERSION}/${VMWARE_BUILD}/linux/core/VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
           tar xf VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
-          sudo bash VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle --console --eulas-agreed --required --set-setting vmware-workstation serialNumber "" --set-setting vmware-player serialNumber "" 
+          sudo bash VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle --console --eulas-agreed --required
           wget -q https://releases.hashicorp.com/vagrant-vmware-utility/${VAGRANT_VMWARE_UTILITY_VERSION}/vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
           sudo dpkg -i vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
@@ -43,10 +43,6 @@ jobs:
           vagrant --version
           packer --version
           vmware --version
-          sudo cat /etc/vmware/networking
-          sudo cat /etc/vmware/vmnet8/dhcpd/*
-          sudo ip a | grep vmnet8
-          sudo ps aux | grep dhcpd
       - name: Build box artifact
         run: |
           export PACKER_LOG=1
