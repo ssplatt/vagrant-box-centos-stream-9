@@ -34,6 +34,7 @@ jobs:
           vboxmanage --version
       - name: Build box artifact
         run: |
+          export VIRTUALBOX=true
           make build
       - name: Upload build artifact
         env:

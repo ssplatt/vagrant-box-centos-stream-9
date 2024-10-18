@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+VIRTUALBOX=${VIRTUALBOX:-"false"}
+
 echo ":::: Running as user $(whoami) ... "
 id
 echo ":::: Home dir: $HOME ..."
@@ -16,17 +18,16 @@ sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 
 sudo systemctl enable tmp.mount
-sudo yum install -y \
+sudo dnf install -y \
     epel-release \
     centos-release-kmods
-sudo yum upgrade -y
-sudo yum groupinstall -y GNOME
-sudo yum install -y \
+sudo dnf upgrade -y
+sudo dnf groupinstall -y GNOME
+sudo dnf install -y \
     bzip2 \
     tar \
     firefox \
     cloud-utils-growpart \
-    open-vm-tools-desktop \
     vim \
     wget \
     htop \
@@ -37,7 +38,6 @@ sudo yum install -y \
     kernel-devel \
     kernel-headers \
     autoconf \
-    virtualbox-guest-additions \
     unzip \
     socat \
     net-tools \
@@ -54,9 +54,24 @@ sudo yum install -y \
     xz-devel \
     zlib-devel
 
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-sudo yum install -y google-chrome-stable_current_x86_64.rpm
-sudo rm -f google-chrome-stable_current_x86_64.rpm
+if [[ ! -s /etc/sudoers.d/vagrant ]]; then
+    sudo bash -c "cat > /etc/sudoers.d/vagrant" <<EOL
+Defaults:vagrant !requiretty
+%vagrant ALL=(ALL) NOPASSWD: ALL
+EOL
+fi
+
+sudo sed -E -i 's/^#UseDNS no/UseDNS yes/' /etc/ssh/sshd_config
+sudo sed -E -i 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+arch=$(uname -m)
+if [[ "$arch" == "x86_64" ]]; then
+    wget "https://dl.google.com/linux/direct/google-chrome-stable_current_${arch}.rpm"
+    sudo dnf install -y "google-chrome-stable_current_${arch}.rpm"
+    sudo rm -f "google-chrome-stable_current_${arch}.rpm"
+else
+    sudo dnf install -y chromium
+fi
 
 if [[ ! -s /home/vagrant/.ssh/authorized_keys ]]; then
     mkdir -p /home/vagrant/.ssh
@@ -65,9 +80,18 @@ if [[ ! -s /home/vagrant/.ssh/authorized_keys ]]; then
     chmod 600 /home/vagrant/.ssh/authorized_keys
     chown -R vagrant:vagrant /home/vagrant/.ssh
 fi
+if [[ "$VIRTUALBOX" == "true" ]]; then
+    sudo dnf install -y virtualbox-guest-additions
+    sudo systemctl enable vboxservice
+else
+    ## assume vmware
+    sudo dnf install -y open-vm-tools-desktop
+fi
 
-sudo systemctl enable vboxservice
 sudo systemctl set-default graphical
 
+sudo dnf remove -y \
+    kernel-devel \
+    kernel-headers
 sudo dnf clean all
 sudo dnf remove -y --oldinstallonly

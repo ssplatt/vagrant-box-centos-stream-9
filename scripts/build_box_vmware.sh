@@ -20,7 +20,6 @@ else
     sudo touch /etc/vmware/license-ws-foo
     packer init -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
     packer validate -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
-    df -h
     packer build \
         -color=false \
         -on-error=abort \
@@ -34,8 +33,13 @@ else
     rm -rf ./*.scoreboard
     rm -rf ./*.log
     rm -rf ./*.box
-    vmware-vdiskmanager -d ./*.vmdk
-    vmware-vdiskmanager -k ./*.vmdk
+    if [[ "$(uname -o)" == "Darwin" ]]; then
+        vmwarevdiskmanager="/Applications/VMware Fusion.app/Contents/Library/vmware-vdiskmanager"
+    else
+        vmwarevdiskmanager=$(which vmware-vdiskmanager)
+    fi
+    $vmwarevdiskmanager -d ./*.vmdk
+    $vmwarevdiskmanager -k ./*.vmdk
 
     bash "$PROJECT_ROOT"/scripts/add_metadata.sh
 
