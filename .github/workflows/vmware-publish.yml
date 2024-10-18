@@ -40,8 +40,9 @@ jobs:
           sudo dpkg -i vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
           sudo systemctl restart vagrant-vmware-utility
           sudo vmware-modconfig --console --install-all
-          mkdir -p "$HOME/.vmware/preferences"
+          mkdir -p "$HOME/.vmware"
           echo "pref.wspro.firstRunDismissedVersion = \"${VMWARE_VERSION}\"" > "$HOME/.vmware/preferences"
+          chmod 600 "$HOME/.vmware/preferences"
           vagrant --version
           packer --version
           vmware --version
