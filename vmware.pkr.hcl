@@ -18,7 +18,7 @@ source "vmware-vmx" "box" {
   communicator      = "ssh"
   ssh_username      = "vagrant"
   ssh_password      = "vagrant"
-  ssh_timeout       = "10m"
+  ssh_timeout       = "20m"
   shutdown_command  = "sudo shutdown -h now"
   format            = "vmx"
   headless          = "true"
