@@ -12,7 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
       - name: check amount of ram
-        run: lsmem
+        run: |
+          sudo lsmem
+          sudo lscpu
       - name: Setup HashiCorp Packer
         uses: hashicorp/setup-packer@main
         with:
