@@ -2,7 +2,11 @@
 set -e
 
 PROVIDER=${PROVIDER:-"vmware_desktop"}
-ARCHITECTURE=${ARCHITECTURE:-"amd64"}
+ARCHITECTURE=${ARCHITECTURE:-$(uname -m)}
+
+if [[ "$ARCHITECTURE" == "x86_64" ]]; then
+  ARCHITECTURE="amd64"
+fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/"
 PROJECT_ROOT="$(dirname "$DIR")"

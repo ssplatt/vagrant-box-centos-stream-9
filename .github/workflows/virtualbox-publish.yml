@@ -3,7 +3,7 @@ name: Vagrant Virtualbox box publish
 on:
   push:
   schedule:
-    - cron: "1 1 * * *"
+    - cron: "1 1 * * 1"
 
 jobs:
   box_build:

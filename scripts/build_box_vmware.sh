@@ -15,9 +15,12 @@ if [[ "$USE_VAGRANT" == "true" ]]; then
         -on-error=abort \
         ./vagrant-vmware.pkr.hcl
 else
-    vagrant box add ssplatt/centos-stream-9 --no-tty --provider vmware_desktop
+    if [[ ! -d "$HOME/.vagrant.d/boxes/ssplatt-VAGRANTSLASH-centos-stream-9" ]]; then
+        vagrant box add ssplatt/centos-stream-9 --no-tty --provider vmware_desktop
+    else
+        vagrant box update --box ssplatt/centos-stream-9 --provider vmware_desktop
+    fi
     vmx_file=$(find "$HOME/.vagrant.d/boxes/" -type f -name "*.vmx")
-    sudo touch /etc/vmware/license-ws-foo
     packer init -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
     packer validate -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
     packer build \

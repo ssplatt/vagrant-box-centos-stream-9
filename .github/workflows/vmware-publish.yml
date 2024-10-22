@@ -11,11 +11,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Enable KVM group perms
+      - name: check amount of ram
         run: |
-            echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-            sudo udevadm control --reload-rules
-            sudo udevadm trigger --name-match=kvm
+          sudo lsmem
+          sudo lscpu
       - name: Setup HashiCorp Packer
         uses: hashicorp/setup-packer@main
         with:
@@ -28,21 +27,7 @@ jobs:
           sudo apt install -y vagrant packer
       - name: Setup Vmware
         run: |
-          export VMWARE_VERSION=17.6.1
-          export VMWARE_BUILD=24319023
-          export VAGRANT_VMWARE_UTILITY_VERSION=1.0.23
-          sudo apt-get update
-          sudo apt-get install -y software-properties-common wget build-essential libxcb-render0 libpcsclite1
-          wget -q https://softwareupdate.vmware.com/cds/vmw-desktop/ws/${VMWARE_VERSION}/${VMWARE_BUILD}/linux/core/VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
-          tar xf VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle.tar
-          sudo bash VMware-Workstation-${VMWARE_VERSION}-${VMWARE_BUILD}.x86_64.bundle --console --eulas-agreed --required
-          wget -q https://releases.hashicorp.com/vagrant-vmware-utility/${VAGRANT_VMWARE_UTILITY_VERSION}/vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
-          sudo dpkg -i vagrant-vmware-utility_${VAGRANT_VMWARE_UTILITY_VERSION}-1_amd64.deb
-          sudo systemctl restart vagrant-vmware-utility
-          sudo vmware-modconfig --console --install-all
-          vagrant --version
-          packer --version
-          vmware --version
+          make setup-vmware
       - name: Build box artifact
         run: |
           export PACKER_LOG=1
