@@ -25,3 +25,6 @@ cat "$HOME/.vmware/preferences"
 vagrant --version
 packer --version
 vmware --version
+
+#try to run vmware, just to see what happens
+vmware
