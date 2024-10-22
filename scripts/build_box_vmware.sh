@@ -21,7 +21,6 @@ else
         vagrant box update --box ssplatt/centos-stream-9 --provider vmware_desktop
     fi
     vmx_file=$(find "$HOME/.vagrant.d/boxes/" -type f -name "*.vmx")
-    sudo touch /etc/vmware/license-ws-foo
     packer init -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
     packer validate -var "vmx_path=$vmx_file" ./vmware.pkr.hcl
     packer build \
