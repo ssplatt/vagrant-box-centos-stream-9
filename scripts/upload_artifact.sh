@@ -9,19 +9,22 @@ BOX_NAME=${BOX_NAME:-"centos-stream-9"}
 VERSION=${VERSION:-"0.0.1"}
 PROVIDER=${PROVIDER:-"virtualbox"}
 BOX_PATH=${BOX_PATH:-"$PROVIDER/package.box"}
-ARCH=${ARCH:-"amd64"}
+ARCHITECTURE=${ARCHITECTURE:-$(uname -m)}
+
+if [[ "$ARCHITECTURE" == "x86_64" ]]; then
+  ARCHITECTURE="amd64"
+fi
 
 echo "VAGRANT_USER=$VAGRANT_USER"
 echo "BOX_NAME=$BOX_NAME"
 echo "VERSION=$VERSION"
 echo "BOX_PATH=$BOX_PATH"
 echo "PROVIDER=$PROVIDER"
-echo "ARCH=$ARCH"
+echo "ARCHITECTURE=$ARCHITECTURE"
 
 # Create a new version
 is_version=$(curl -s "https://app.vagrantup.com/api/v2/box/${VAGRANT_USER}/${BOX_NAME}/version/${VERSION}/" | jq -r .version)
-if [[ "$is_version" == "$VERSION" ]];
-then
+if [[ "$is_version" == "$VERSION" ]]; then
   echo "... Version $VERSION already exists, adding new provider"
 else
   curl \
@@ -33,20 +36,25 @@ else
 fi
 
 # Create a new provider
+if [[ "$ARCHITECTURE" == "amd64" ]]; then
+  default_arch=true
+else
+  default_arch=false
+fi
 curl \
   --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${VAGRANT_TOKEN}" \
   "https://app.vagrantup.com/api/v2/box/${VAGRANT_USER}/${BOX_NAME}/version/${VERSION}/providers" \
   --data "{ \"provider\": { \"name\": \"${PROVIDER}\",
-            \"architecture\": \"${ARCH}\",
-            \"default_architecture\": true} }"
+            \"architecture\": \"${ARCHITECTURE}\",
+            \"default_architecture\": ${default_arch}} }"
 
 # Prepare the provider for upload/get an upload URL
 response=$(curl \
     --request GET \
     --header "Authorization: Bearer ${VAGRANT_TOKEN}" \
-    "https://app.vagrantup.com/api/v2/box/${VAGRANT_USER}/${BOX_NAME}/version/${VERSION}/provider/${PROVIDER}/${ARCH}/upload")
+    "https://app.vagrantup.com/api/v2/box/${VAGRANT_USER}/${BOX_NAME}/version/${VERSION}/provider/${PROVIDER}/${ARCHITECTURE}/upload")
 
 # Extract the upload URL from the response (requires the jq command)
 upload_path=$(echo "$response" | jq -r .upload_path)
