@@ -52,7 +52,11 @@ sudo dnf install -y \
     openssl-devel \
     sqlite-devel \
     xz-devel \
-    zlib-devel
+    zlib-devel \
+    dnf-automatic
+
+sudo sed -i 's/apply_updates = no/apply_updates = yes/' /etc/dnf/automatic.conf
+sudo systemctl enable --now dnf-automatic.timer
 
 if [[ ! -s /etc/sudoers.d/vagrant ]]; then
     sudo bash -c "cat > /etc/sudoers.d/vagrant" <<EOL
