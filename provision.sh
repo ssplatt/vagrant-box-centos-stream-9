@@ -19,8 +19,7 @@ sudo systemctl disable firewalld
 
 sudo systemctl enable tmp.mount
 sudo dnf install -y \
-    epel-release \
-    centos-release-kmods
+    epel-release
 sudo dnf upgrade -y
 sudo dnf groupinstall -y GNOME
 sudo dnf install -y \
@@ -87,12 +86,13 @@ if [[ ! -s /home/vagrant/.ssh/authorized_keys ]]; then
     chown -R vagrant:vagrant /home/vagrant/.ssh
 fi
 if [[ "$VIRTUALBOX" == "true" ]]; then
-    sudo dnf install -y virtualbox-guest-additions
+    sudo dnf install -y centos-release-kmods
+    sudo dnf install -y virtualbox-guest-additions kmod-vbox-guest-additions
     sudo systemctl enable vboxservice
     sudo /sbin/rcvboxadd quicksetup all || true
 else
     ## assume vmware
-    sudo dnf install -y open-vm-tools-desktop
+    sudo dnf install -y open-vm-tools-desktop open-vm-tools
 fi
 
 sudo systemctl set-default graphical
